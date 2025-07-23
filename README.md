@@ -27,7 +27,7 @@
 ### Идемпотентность и concurrency
 Для предотвращения конфликтов при параллельном изменении состояния игры реализован механизм оптимистичной блокировки:
 
-1. Проверка версии через If-Match. Каждый запрос на изменение должен содержать заголовок If-Match с ожидаемой версией игры. Сервер сравнивает ее с актуальной версией:
+1. Проверка версии через If-Match. Каждый запрос на изменение должен содержать заголовок `If-Match` с ожидаемой версией игры. Сервер сравнивает ее с актуальной версией:
 ```
 var expectedVersion = _httpContext.GetRequestIfMatchVersionHeader();
 var actualVersion = await _gameRepository.GetGameVersionAsync(gameId);
@@ -46,3 +46,6 @@ eventEntryConfiguration.HasIndex(e => new { e.ModelId, e.Version })
 ### СУБД и ORM
 В качестве СУБД и ORM были выбраны PostgreSQL и Entity Framework Core (выбор из-за опыта работы).
 Для Event Sourcing также подошли бы специализированные решения (например, EventStoreDB).
+
+## Настройка
+Для изменения размера доски и условия победы необходимо добавить переменные окружения `TABLE_SIZE` и `WIN_LENGTH` соответственно. 
